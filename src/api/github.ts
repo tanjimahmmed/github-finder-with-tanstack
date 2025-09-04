@@ -34,3 +34,21 @@ export const checkIfFollowingUser = async(username: string) => {
         throw new Error(errorData.message || 'Failed to check follow status')
     }
 }
+
+// Follow User on Github
+export const followGithubUser = async(username: string) => {
+    const res = await fetch(`${import.meta.env.VITE_GITHUB_API_URL}/user/following/${username}`, {
+        method: 'PUT',
+        headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_GITHUB_API_TOKEN}`,
+            Accept: 'application/vnd.github+json',
+            'Content-Type': 'application/json'
+        }
+    });
+
+    if(!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to check follow status')
+    }
+    return true;
+}
